@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setUser, setToken, logout } from "../../../store/slices/authSlice";
+import api from "../../../services/api";
 
 interface LoginFormData {
     username: string;
@@ -34,31 +35,13 @@ interface User {
 }
 
 const loginUser = async (credentials: LoginFormData): Promise<LoginResponse> => {
-    const response = await fetch('https://dummyjson.com/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials)
-    });
-
-    if (!response.ok) {
-        throw new Error('Login failed');
-    }
-
-    return response.json();
+    const response = await api.post('/auth/login', credentials);
+    return response.data;
 };
 
 const fetchCurrentUser = async (token: string): Promise<User> => {
-    const response = await fetch('https://dummyjson.com/user/me', {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to fetch user data');
-    }
-
-    return response.json();
+    const response = await api.get('/user/me');
+    return response.data;
 };
 
 const Login = () => {

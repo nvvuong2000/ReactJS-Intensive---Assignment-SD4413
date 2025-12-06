@@ -1,6 +1,7 @@
 import { createContext, ReactElement, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setUser, setToken, logout, setLoading } from "../store/slices/authSlice";
+import api from "../services/api";
 
 export interface AuthUser {
     id: number;
@@ -35,25 +36,19 @@ const AuthenticatedProvider = ({ children }: { children: ReactElement }) => {
             if (storedToken) {
                 dispatch(setToken(storedToken));
                 try {
-                    const response = await fetch('https://dummyjson.com/user/me', {
-                        headers: { 'Authorization': `Bearer ${storedToken}` }
-                    });
-                    if (response.ok) {
-                        const data = await response.json();
-                        const userRole = data.role === 'admin' ? 'officer' : 'user';
-                        dispatch(setUser({
-                            id: data.id,
-                            username: data.username,
-                            email: data.email,
-                            firstName: data.firstName,
-                            lastName: data.lastName,
-                            gender: data.gender,
-                            image: data.image,
-                            role: userRole
-                        }));
-                    } else {
-                        dispatch(setUser(null));
-                    }
+                    const response = await api.get('/user/me');
+                    const data = response.data;
+                    const userRole = data.role === 'admin' ? 'officer' : 'user';
+                    dispatch(setUser({
+                        id: data.id,
+                        username: data.username,
+                        email: data.email,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        gender: data.gender,
+                        image: data.image,
+                        role: userRole
+                    }));
                 } catch (error) {
                     console.error('Failed to fetch user:', error);
                     dispatch(setUser(null));
