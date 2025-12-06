@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { User } from '../../../contexts/UserDataContext';
 import { useAppSelector } from '../../../store/hooks';
 import { ReviewData } from '../../../store/slices/reviewSlice';
+import api from '../../../services/api';
 
 interface PersonalInfo {
     firstName: string;
@@ -51,9 +52,8 @@ const PersonalInformation = () => {
         queryKey: ['user', urlUserId],
         queryFn: async () => {
             if (!urlUserId) return null;
-            const res = await fetch(`https://dummyjson.com/users/${urlUserId}`);
-            if (!res.ok) throw new Error('Failed to fetch user');
-            return res.json();
+            const response = await api.get(`/users/${urlUserId}`);
+            return response.data;
         },
         enabled: !!urlUserId,
     });

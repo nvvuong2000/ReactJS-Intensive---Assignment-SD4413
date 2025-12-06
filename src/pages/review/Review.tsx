@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { updateReview, loadReviewData } from "../../store/slices/reviewSlice";
+import api from "../../services/api";
 
 interface ReviewedUser {
     id: number;
@@ -46,17 +47,8 @@ const Review = () => {
     });
 
     const fetchCurrentUser = async (token: string): Promise<{ users: ReviewedUser[] }> => {
-        const response = await fetch('https://dummyjson.com/users', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch user data');
-        }
-        const data = await response.json();
-        return data?.users;
+        const response = await api.get('/users');
+        return response.data?.users;
     };
 
     useEffect(() => {

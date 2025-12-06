@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAppSelector } from '../../../store/hooks';
+import api from '../../../services/api';
 import BasicInfoSection from './components/BasicInfoSection';
 import AddressesSection from './components/AddressesSection';
 import EmailsSection from './components/EmailsSection';
@@ -156,9 +157,8 @@ const UserKYC = () => {
         queryKey: ['user', urlUserId],
         queryFn: async () => {
             if (!urlUserId || fetchedUser) return null;
-            const res = await fetch(`https://dummyjson.com/users/${urlUserId}`);
-            if (!res.ok) throw new Error('Failed to fetch user');
-            return res.json();
+            const response = await api.get(`/users/${urlUserId}`);
+            return response.data;
         },
         enabled: !!urlUserId && !fetchedUser,
     });
