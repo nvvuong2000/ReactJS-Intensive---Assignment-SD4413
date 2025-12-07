@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { InputField } from '../../../../components/shared';
 
 interface BasicInfo {
     firstName: string;
@@ -24,45 +25,36 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ basicInfo, onChange
             <form>
                 <fieldset>
                     <div className="grid grid-cols-6 gap-6">
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="first-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                            <input
-                                type="text"
-                                id="first-name"
-                                value={basicInfo.firstName}
-                                onChange={(e) => onChange('firstName', e.target.value)}
-                                className={`shadow-sm bg-gray-50 border ${errors.firstName ? 'border-red-500' : 'border-gray-300'} text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${readOnly ? 'bg-gray-100 cursor-not-allowed opacity-60' : ''}`}
-                                placeholder="First Name"
-                                readOnly={readOnly}
-                            />
-                            {errors.firstName && <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>}
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="last-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                            <input
-                                type="text"
-                                id="last-name"
-                                value={basicInfo.lastName}
-                                onChange={(e) => onChange('lastName', e.target.value)}
-                                className={`shadow-sm bg-gray-50 border ${errors.lastName ? 'border-red-500' : 'border-gray-300'} text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${readOnly ? 'bg-gray-100 cursor-not-allowed opacity-60' : ''}`}
-                                placeholder="Last Name"
-                                readOnly={readOnly}
-                            />
-                            {errors.lastName && <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>}
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="middle-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle Name</label>
-                            <input
-                                type="text"
-                                id="middle-name"
-                                value={basicInfo.middleName}
-                                onChange={(e) => onChange('middleName', e.target.value)}
-                                className={`shadow-sm bg-gray-50 border ${errors.middleName ? 'border-red-500' : 'border-gray-300'} text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${readOnly ? 'bg-gray-100 cursor-not-allowed opacity-60' : ''}`}
-                                placeholder="Middle Name"
-                                readOnly={readOnly}
-                            />
-                            {errors.middleName && <p className="mt-1 text-sm text-red-600">{errors.middleName}</p>}
-                        </div>
+                        <InputField
+                            label="First Name"
+                            id="first-name"
+                            value={basicInfo.firstName}
+                            onChange={(value) => onChange('firstName', value)}
+                            placeholder="First Name"
+                            error={errors.firstName}
+                            readOnly={readOnly}
+                            className="col-span-6 sm:col-span-3"
+                        />
+                        <InputField
+                            label="Last Name"
+                            id="last-name"
+                            value={basicInfo.lastName}
+                            onChange={(value) => onChange('lastName', value)}
+                            placeholder="Last Name"
+                            error={errors.lastName}
+                            readOnly={readOnly}
+                            className="col-span-6 sm:col-span-3"
+                        />
+                        <InputField
+                            label="Middle Name"
+                            id="middle-name"
+                            value={basicInfo.middleName}
+                            onChange={(value) => onChange('middleName', value)}
+                            placeholder="Middle Name"
+                            error={errors.middleName}
+                            readOnly={readOnly}
+                            className="col-span-6 sm:col-span-3"
+                        />
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="birthday" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthday</label>
                             <DatePicker
@@ -88,17 +80,15 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ basicInfo, onChange
                             />
                             {errors.dob && <p className="mt-1 text-sm text-red-600">{errors.dob}</p>}
                         </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
-                            <input
-                                type="text"
-                                id="age"
-                                value={basicInfo.age}
-                                className={`shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 bg-gray-100 cursor-not-allowed opacity-60`}
-                                placeholder="Auto-calculated"
-                                readOnly
-                            />
-                        </div>
+                        <InputField
+                            label="Age"
+                            id="age"
+                            value={basicInfo.age}
+                            onChange={() => {}} // Age is auto-calculated
+                            placeholder="Auto-calculated"
+                            readOnly={true}
+                            className="col-span-6 sm:col-span-3"
+                        />
                     </div>
                 </fieldset>
             </form>
