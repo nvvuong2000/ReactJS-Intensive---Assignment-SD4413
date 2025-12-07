@@ -1,7 +1,7 @@
-import Header from "../components/header/header";
-import Sidebar from "../components/sidebar/sidebar";
+import Header from "../components/header";
+import Sidebar from "../components/sidebar";
 import { Outlet } from "react-router";
-import Footer from "../components/footer/footer";
+import Footer from "../components/footer";
 import React from "react";
 import { useAppSelector } from "../store/hooks";
 import Login from "./auth/login/Login";
